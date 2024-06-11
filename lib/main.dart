@@ -25,7 +25,7 @@ class CustomDropdownInDrawer extends StatefulWidget {
 class _CustomDropdownInDrawerState extends State<CustomDropdownInDrawer>
     with SingleTickerProviderStateMixin {
   final List<String> _dropdownItems = ['One', 'Two', 'Three', 'Four', 'Five'];
-  String? _selectedItem;
+  late String _selectedItem = _dropdownItems.first;
   bool _isDropdownOpened = false;
   OverlayEntry? _overlayEntry;
   final LayerLink _layerLink = LayerLink();
@@ -100,11 +100,9 @@ class _CustomDropdownInDrawerState extends State<CustomDropdownInDrawer>
                     children: <Widget>[
                       Row(
                         children: [
-                          if (_selectedItem != null)
-                            const Icon(Icons.circle),
-                          if (_selectedItem != null)
-                            const SizedBox(width: 10),
-                          Text(_selectedItem ?? 'Select Item'),
+                          const Icon(Icons.email_outlined),
+                          const SizedBox(width: 10),
+                          Text(_selectedItem),
                         ],
                       ),
                       const Icon(Icons.arrow_drop_down),
@@ -184,7 +182,7 @@ class _CustomDropdownInDrawerState extends State<CustomDropdownInDrawer>
                       return Column(
                         children: [
                           ListTile(
-                            leading: const Icon(Icons.circle),
+                            leading: const Icon(Icons.email_outlined),
                             title: Text(filteredItems[index]),
                             onTap: () {
                               setState(() {
@@ -198,7 +196,7 @@ class _CustomDropdownInDrawerState extends State<CustomDropdownInDrawer>
                       );
                     } else if (index == filteredItems.length) {
                       return ListTile(
-                        leading: const Icon(Icons.circle),
+                        leading: const Icon(Icons.email_outlined),
                         title: const Text("Special item"),
                         onTap: () {
                           _closeDropdown();
@@ -207,7 +205,7 @@ class _CustomDropdownInDrawerState extends State<CustomDropdownInDrawer>
                       );
                     } else {
                       return ListTile(
-                        leading: const Icon(Icons.circle),
+                        leading: const Icon(Icons.email_outlined),
                         title: Text(filteredItems[index]),
                         onTap: () {
                           setState(() {
