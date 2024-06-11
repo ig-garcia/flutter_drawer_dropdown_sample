@@ -61,7 +61,7 @@ class _CustomDropdownInDrawerState extends State<CustomDropdownInDrawer>
       drawer: Drawer(
         child: Column(
           children: [
-            const SizedBox(height: kToolbarHeight,),
+            const SizedBox(height: kToolbarHeight),
             CompositedTransformTarget(
               link: _layerLink,
               child: GestureDetector(
@@ -75,8 +75,8 @@ class _CustomDropdownInDrawerState extends State<CustomDropdownInDrawer>
                 },
                 child: Container(
                   width: double.infinity,
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 10.0, vertical: 15.0),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 10.0, vertical: 15.0),
                   decoration: BoxDecoration(
                     border: Border.all(color: Colors.grey),
                     borderRadius: BorderRadius.circular(5.0),
@@ -84,7 +84,15 @@ class _CustomDropdownInDrawerState extends State<CustomDropdownInDrawer>
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      Text(_selectedItem ?? 'Select Item'),
+                      Row(
+                        children: [
+                          if (_selectedItem != null)
+                            const Icon(Icons.circle),
+                          if (_selectedItem != null)
+                            const SizedBox(width: 10),
+                          Text(_selectedItem ?? 'Select Item'),
+                        ],
+                      ),
                       const Icon(Icons.arrow_drop_down),
                     ],
                   ),
@@ -130,7 +138,7 @@ class _CustomDropdownInDrawerState extends State<CustomDropdownInDrawer>
 
   OverlayEntry _createOverlayEntry() {
     RenderBox renderBox =
-        globalKey.currentContext!.findRenderObject() as RenderBox;
+    globalKey.currentContext!.findRenderObject() as RenderBox;
     var size = renderBox.size;
     var offset = renderBox.localToGlobal(Offset.zero);
 
@@ -155,7 +163,7 @@ class _CustomDropdownInDrawerState extends State<CustomDropdownInDrawer>
                 child: ListView.builder(
                   padding: EdgeInsets.zero,
                   shrinkWrap: true,
-                  itemCount: filteredItems.length + 1,
+                  itemCount: filteredItems.length + 1, // +1 for the special item
                   itemBuilder: (context, index) {
                     if (index == filteredItems.length - 1) {
                       return Column(
@@ -178,10 +186,8 @@ class _CustomDropdownInDrawerState extends State<CustomDropdownInDrawer>
                         leading: const Icon(Icons.circle),
                         title: const Text("Special item"),
                         onTap: () {
-                          setState(() {
-                            _selectedItem = "Special item";
-                          });
                           _closeDropdown();
+                          print("doing special action");
                         },
                       );
                     } else {
@@ -206,3 +212,4 @@ class _CustomDropdownInDrawerState extends State<CustomDropdownInDrawer>
     );
   }
 }
+
