@@ -39,7 +39,9 @@ class _CustomDropdownInDrawerState extends State<CustomDropdownInDrawer>
   void initState() {
     super.initState();
     animationController = AnimationController(
-        vsync: this, duration: const Duration(milliseconds: 300));
+      vsync: this,
+      duration: const Duration(milliseconds: 200),
+    );
     animation =
         CurveTween(curve: Curves.fastOutSlowIn).animate(animationController);
   }
@@ -132,6 +134,8 @@ class _CustomDropdownInDrawerState extends State<CustomDropdownInDrawer>
     var size = renderBox.size;
     var offset = renderBox.localToGlobal(Offset.zero);
 
+    List<String> filteredItems = _dropdownItems.where((item) => item != _selectedItem).toList();
+
     return OverlayEntry(
       builder: (context) => Positioned(
         left: offset.dx,
@@ -151,16 +155,17 @@ class _CustomDropdownInDrawerState extends State<CustomDropdownInDrawer>
                 child: ListView.builder(
                   padding: EdgeInsets.zero,
                   shrinkWrap: true,
-                  itemCount: _dropdownItems.length + 1,
+                  itemCount: filteredItems.length + 1,
                   itemBuilder: (context, index) {
-                    if (index == _dropdownItems.length - 1) {
+                    if (index == filteredItems.length - 1) {
                       return Column(
                         children: [
                           ListTile(
-                            title: Text(_dropdownItems[index]),
+                            leading: const Icon(Icons.circle),
+                            title: Text(filteredItems[index]),
                             onTap: () {
                               setState(() {
-                                _selectedItem = _dropdownItems[index];
+                                _selectedItem = filteredItems[index];
                               });
                               _closeDropdown();
                             },
@@ -168,8 +173,9 @@ class _CustomDropdownInDrawerState extends State<CustomDropdownInDrawer>
                           const Divider(),
                         ],
                       );
-                    } else if (index == _dropdownItems.length) {
+                    } else if (index == filteredItems.length) {
                       return ListTile(
+                        leading: const Icon(Icons.circle),
                         title: const Text("Special item"),
                         onTap: () {
                           setState(() {
@@ -180,10 +186,11 @@ class _CustomDropdownInDrawerState extends State<CustomDropdownInDrawer>
                       );
                     } else {
                       return ListTile(
-                        title: Text(_dropdownItems[index]),
+                        leading: const Icon(Icons.circle),
+                        title: Text(filteredItems[index]),
                         onTap: () {
                           setState(() {
-                            _selectedItem = _dropdownItems[index];
+                            _selectedItem = filteredItems[index];
                           });
                           _closeDropdown();
                         },
