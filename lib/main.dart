@@ -52,6 +52,20 @@ class _CustomDropdownInDrawerState extends State<CustomDropdownInDrawer>
     super.dispose();
   }
 
+  void _handleDrawerChanged(bool isOpened) {
+    if (!isOpened && _isDropdownOpened) {
+      _removeDropdownOverlay();
+    }
+  }
+
+  void _removeDropdownOverlay() {
+    _overlayEntry?.remove();
+    _overlayEntry = null;
+    setState(() {
+      _isDropdownOpened = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -111,6 +125,7 @@ class _CustomDropdownInDrawerState extends State<CustomDropdownInDrawer>
           ],
         ),
       ),
+      onDrawerChanged: _handleDrawerChanged,
       body: const Center(
         child: Text('Content goes here'),
       ),
@@ -212,4 +227,3 @@ class _CustomDropdownInDrawerState extends State<CustomDropdownInDrawer>
     );
   }
 }
-
